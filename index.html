@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+  <!-- Primary SEO -->
+  <title>ATLASCEND — Brain | Interactive 3D Neuroanatomy (BETA)</title>
+  <meta name="description" content="ATLASCEND Brain is a free, browser-based educational 3D atlas for neuroanatomy, neural pathways and CT/MRI learning. BETA: educational use only; not for clinical diagnosis." />
+  <meta name="keywords" content="3D brain, brain project, most detailed 3D brain, brain anatomy, interactive brain model, neuroanatomy, neuroscience, brain map, white matter tracts, cortex, gyri, sulci, basal ganglia, thalamus, ventricles, circle of Willis, cranial nerves, brainstem, cerebellum, learn neuroanatomy" />
+  <meta name="author" content="ATLASCEND educational adaptation; based on the Brain Project by Itay Inbar" />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#0c1018" />
+
+  <!-- Open Graph (Facebook, LinkedIn, Slack, …) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="ATLASCEND" />
+  <meta property="og:title" content="ATLASCEND — Brain (BETA)" />
+  <meta property="og:description" content="On the Shoulders of Giants. Beyond the Atlas. A free interactive 3D educational brain atlas." />
+
+  <!-- Twitter / X -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="ATLASCEND — Brain (BETA)" />
+  <meta name="twitter:description" content="On the Shoulders of Giants. Beyond the Atlas. Interactive 3D neuroanatomy for education." />
+
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="apple-touch-icon" href="favicon.svg" />
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Speed up the third-party model/runtime fetches a touch -->
+  <link rel="preconnect" href="https://unpkg.com" crossorigin />
+  <link rel="preconnect" href="https://www.gstatic.com" crossorigin />
+
+</head>
+<body>
+  <div id="root"></div>
+
+  <!-- Three.js (global build) + GLTF/Draco loaders for the real specimen -->
+  <script src="https://unpkg.com/three@0.137.0/build/three.min.js"></script>
+  <script src="https://unpkg.com/three@0.137.0/examples/js/loaders/GLTFLoader.js"></script>
+  <script src="https://unpkg.com/three@0.137.0/examples/js/loaders/DRACOLoader.js"></script>
+
+  <!-- React + Babel (pinned, production builds) -->
+  <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+
+  <!-- data + scene + analytics (plain JS) -->
+  <script src="data.js"></script>
+  <script src="systems-data.js"></script>
+  <script src="mode1-ja.js"></script>
+  <script src="mode1-routes.js"></script>
+  <script src="spinal-cervical.js"></script>
+  <!-- Level-varying cervical WM/GM teaching atlas (independent of 3D meshes) -->
+  <script src="spinal_pam50_contours.js"></script>
+  <script src="spinal_section.js"></script>
+  <script src="mode2-axial-smoothing.js"></script>
+  <script src="mode2-pathways.js"></script>
+  <script src="mode2-territories.js"></script>
+  <script src="mode2-vessels.js"></script>
+  <script src="mode2-stroke-time.js"></script>
+  <script src="mode2-lesions.js"></script>
+  <script src="scene.js"></script>
+  <script src="mode3-imaging.js"></script>
+  <!-- Local educational prototype: original analytics integration intentionally disabled. -->
+
+  <!-- UI (Babel/JSX) -->
+  <script type="text/babel" src="tweaks-panel.jsx"></script>
+  <script type="text/babel" src="components.jsx"></script>
+  <script type="text/babel" src="layers-tree.jsx"></script>
+  <script type="text/babel" src="mode2-panel.jsx"></script>
+  <script type="text/babel" src="control-panel.jsx"></script>
+  <script type="text/babel" src="selection-card.jsx"></script>
+  <script type="text/babel" src="narration.jsx"></script>
+  <script type="text/babel" src="lessons.jsx"></script>
+  <script type="text/babel" src="mode3-viewer.jsx"></script>
+  <script type="text/babel" src="app.jsx"></script>
+</body>
+</html>
