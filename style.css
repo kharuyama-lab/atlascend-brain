@@ -1,0 +1,344 @@
+/* ============================================================
+   Brain Project - design system
+   Clinical-precise chrome · dark specimen stage · modern palette
+   ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root {
+  /* --- brand / chrome --- */
+  --accent:        #3A66FF;
+  --accent-press:  #2B4FE0;
+  --accent-soft:   rgba(58, 102, 255, 0.12);
+  --accent-ring:   rgba(58, 102, 255, 0.40);
+
+  /* --- ink (on light glass) --- */
+  --ink:        #16181F;
+  --ink-soft:   #444A57;
+  --ink-faint:  #767D8C;
+  --ink-ghost:  #A2A8B4;
+  --hair:       rgba(16, 20, 32, 0.09);
+  --hair-2:     rgba(16, 20, 32, 0.06);
+
+  /* --- light frosted glass --- */
+  --glass:        rgba(249, 250, 252, 0.74);
+  --glass-solid:  rgba(250, 251, 253, 0.96);
+  --glass-hi:     rgba(255, 255, 255, 0.85);
+  --glass-edge:   rgba(255, 255, 255, 0.65);
+  --glass-shadow: 0 1px 2px rgba(10, 14, 28, 0.18),
+                  0 12px 32px -8px rgba(10, 14, 28, 0.42),
+                  0 2px 6px rgba(10, 14, 28, 0.20);
+  --field:        rgba(255, 255, 255, 0.70);
+
+  /* --- specimen stage (dark) --- */
+  --stage-1: #1a2236;   /* center glow */
+  --stage-2: #0c1018;   /* mid */
+  --stage-3: #06080d;   /* edge */
+  --on-stage:        #E9EDF6;
+  --on-stage-soft:   #9aa6bd;
+
+  /* --- 11 subsystem colors (mirror of BRAIN.palette) --- */
+  --c-cortex:        #E7DEC9;
+  --c-white_matter:  #D7DDE8;
+  --c-deep_grey:     #B57BE0;
+  --c-diencephalon:  #7E8CF2;
+  --c-brainstem:     #E8B24A;
+  --c-cerebellum:    #F0894E;
+  --c-ventricles:    #3FC8D6;
+  --c-arteries:      #F05068;
+  --c-veins_sinuses: #5078E8;
+  --c-cranial_nerves:#D9D24A;
+  --c-meninges_dura: #CC63CC;
+
+  --r-lg: 18px;
+  --r-md: 13px;
+  --r-sm: 9px;
+  --font: 'Hanken Grotesk', system-ui, -apple-system, sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+* { box-sizing: border-box; }
+html, body {
+  margin: 0; padding: 0; height: 100%;
+  font-family: var(--font);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overscroll-behavior: none;
+}
+body { overflow: hidden; background: #06080d; color: var(--ink); }
+#root { position: fixed; inset: 0; }
+
+/* ---------- stage ---------- */
+.stage {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(120% 95% at 50% 38%, var(--stage-1) 0%, var(--stage-2) 46%, var(--stage-3) 100%);
+}
+.stage::after {  /* subtle vignette + grain feel */
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(130% 100% at 50% 45%, transparent 55%, rgba(0,0,0,0.45) 100%);
+}
+canvas.three { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
+
+/* ---------- floating window chrome ---------- */
+.glass {
+  background: var(--glass);
+  -webkit-backdrop-filter: blur(26px) saturate(165%);
+  backdrop-filter: blur(26px) saturate(165%);
+  border: 1px solid var(--glass-edge);
+  box-shadow: var(--glass-shadow);
+  border-radius: var(--r-lg);
+}
+.glass-top-hi {
+  background-image: linear-gradient(var(--glass-hi), transparent 64px);
+}
+
+/* scrollbars inside panels */
+.scroll { scrollbar-width: thin; scrollbar-color: rgba(20,24,36,0.22) transparent; }
+.scroll::-webkit-scrollbar { width: 9px; }
+.scroll::-webkit-scrollbar-thumb { background: rgba(20,24,36,0.18); border-radius: 9px; border: 2px solid transparent; background-clip: padding-box; }
+.scroll::-webkit-scrollbar-thumb:hover { background: rgba(20,24,36,0.30); background-clip: padding-box; }
+
+/* ---------- focus ---------- */
+:focus-visible { outline: 2px solid var(--accent-ring); outline-offset: 1px; }
+button { font-family: inherit; cursor: pointer; }
+
+/* ---------- helpers ---------- */
+.mono { font-family: var(--mono); font-feature-settings: "tnum" 1; }
+.eyebrow {
+  font-family: var(--mono); font-weight: 500;
+  font-size: 10px; letter-spacing: 0.13em; text-transform: uppercase;
+  color: var(--ink-faint);
+}
+.noselect { -webkit-user-select: none; user-select: none; }
+
+@keyframes popIn { from { opacity: 0; transform: translateY(8px) scale(0.98); } to { opacity: 1; transform: none; } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes riseIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+.pop { animation: popIn 0.32s cubic-bezier(0.16, 1, 0.3, 1); }
+.rise { animation: riseIn 0.42s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.fade { animation: fadeIn 0.3s ease both; }   /* opacity-only - safe for translateX-centred cards */
+
+@media (prefers-reduced-motion: reduce) {
+  .pop, .rise { animation: none; }
+}
+
+/* ---------- cinematic narration / lesson cards (dark glass over the stage) ---------- */
+.glass-dark {
+  background: rgba(13, 17, 26, 0.66);
+  -webkit-backdrop-filter: blur(22px) saturate(150%);
+  backdrop-filter: blur(22px) saturate(150%);
+  border: 1px solid rgba(255,255,255,0.10);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.4), 0 18px 48px -10px rgba(0,0,0,0.6);
+  border-radius: var(--r-lg);
+  color: var(--on-stage);
+}
+.eyebrow-light { color: var(--on-stage-soft); }
+
+/* fade hint at the bottom of a scrollable panel body (Systems / Learn) */
+.panel-fade {
+  position: absolute; left: 1px; right: 1px; bottom: 0; height: 34px;
+  pointer-events: none; border-radius: 0 0 var(--r-lg) var(--r-lg);
+  background: linear-gradient(to bottom, rgba(249,250,252,0), var(--glass));
+}
+.scroll-dark { scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.22) transparent; }
+.scroll-dark::-webkit-scrollbar { width: 8px; }
+.scroll-dark::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.18); border-radius: 9px; }
+/* Mode 3: quadrants with common scan coordinates. Does not alter Mode 1/2. */
+.mode3-container {position:absolute;left:348px;right:14px;top:10px;bottom:14px;z-index:8;color:#e8f1fb;display:flex;flex-direction:column;gap:8px;min-height:0}
+.mode3-top{display:flex;gap:12px;justify-content:space-between;align-items:center;background:#111b29;border:1px solid #33475b;border-radius:12px;padding:10px 14px;flex-wrap:wrap}
+.mode3-top strong{font-size:15px}.mode3-top span{font-size:11px;color:#b2c4d8}
+.mode3-toolbar{display:flex;gap:5px;align-items:center}.mode3-toolbar button{border:1px solid #657c91;background:#213246;color:#f3f7fb;border-radius:7px;padding:7px 10px}.mode3-toolbar button.sel{background:#b5dff1;color:#132436;border-color:#b5dff1;font-weight:800}
+.mode3-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(2,minmax(0,1fr));flex:1;min-height:0;gap:8px}
+.mode3-tile{background:#0d1522;border:1px solid #3b5267;border-radius:12px;min-height:0;min-width:0;display:flex;flex-direction:column;overflow:hidden}
+.mode3-tile header{padding:7px 12px 5px;display:flex;justify-content:space-between;gap:8px;font-size:11px}.mode3-tile header span{color:#9eb5c9}
+.mode3-tile canvas{flex:1;display:block;width:100%;min-height:0;touch-action:none;cursor:crosshair}
+.mode3-tile footer{padding:5px 10px 7px;font-size:10px;color:#8ca8bf;text-align:center}
+.mode3-bottom{font-size:10px;color:#b7cee0;line-height:1.4;background:rgba(12,21,34,.9);border:1px solid #334559;border-radius:8px;padding:6px 10px}
+.mode3-loading{display:flex;flex-direction:column;justify-content:center;align-items:center;flex:1;text-align:center;background:#121c2a;border:1px solid #3b5267;border-radius:12px;padding:20px}
+.mode3-loading p{max-width:560px;color:#c2d1df;font-size:13px;line-height:1.7}.mode3-loading code{color:#f4de9e}
+@media(max-width:850px){.mode3-container{left:8px;right:8px;top:8px;bottom:40vh}.mode3-top{padding:6px 8px}.mode3-top strong{font-size:11px}.mode3-toolbar button{padding:5px}.mode3-grid{gap:4px}.mode3-tile header{padding:4px;font-size:9px}.mode3-tile footer,.mode3-bottom{font-size:8px}}
+/* Mode 3 v0.2: 3D anatomical reference always occupies top left. */
+.mode3-top {flex:0 0 auto;min-height:38px}
+.mode3-brain-preview{flex:1;min-height:0;position:relative;display:flex;overflow:hidden;background:#0b1521}
+.mode3-brain-preview canvas{width:100%;height:100%;min-height:0;display:block;touch-action:none;cursor:grab}
+.mode3-brain-message{position:absolute;inset:0;display:grid;place-items:center;color:#cedde9;font-size:12px;pointer-events:none;text-align:center;padding:12px}
+.mode3-registration-note{position:absolute;bottom:8px;left:8px;right:8px;font-size:10px;color:#e4bc8d;background:rgba(11,21,33,.82);border-radius:6px;padding:4px 7px;pointer-events:none;text-align:center}
+.mode3-mobile-tabs{display:none}
+@media(max-width:850px){
+ .mode3-container{left:8px;right:8px;top:8px;bottom:43vh;gap:5px}
+ .mode3-top{padding:6px 8px;min-height:26px;font-size:11px}
+ .mode3-top strong{font-size:11px}
+ .mode3-mobile-tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
+ .mode3-mobile-tabs button{border:1px solid #435d72;border-radius:6px;background:#162536;color:#d9e8f3;padding:6px 2px;font-size:11px}
+ .mode3-mobile-tabs button.sel{border-color:#8bc8e0;background:#29465c;color:white;font-weight:700}
+ .mode3-grid{display:flex;flex:1;min-height:0}
+ .mode3-grid>.mode3-tile{display:flex;flex:1}
+ .mode3-grid>.mode3-tile.mode3-hide{display:none}
+ .mode3-bottom{display:none}
+ .mode3-tile header{font-size:10px}
+ .mode3-tile footer{font-size:9px}
+}
+.mode3-brain-tile{position:relative}
+.mode3-space-inset{position:absolute;right:10px;top:38px;z-index:2;background:rgba(7,17,27,.89);border:1px solid #4b6e87;border-radius:9px;padding:4px;color:#c4d9e9;font-size:9px;text-align:center;pointer-events:none}
+.mode3-space-inset canvas{width:124px!important;height:112px!important;display:block}
+@media(max-width:850px){.mode3-space-inset{right:5px;top:29px;transform:scale(.8);transform-origin:top right}}
+.mode3-brain-hover{position:absolute;top:8px;left:8px;max-width:72%;padding:4px 8px;background:rgba(9,23,38,.91);border:1px solid #56819e;color:#f4faff;border-radius:6px;font-size:11px;pointer-events:none}
+
+/* CT patient-RAS direction labels, anchored to rotating 3D box endpoints */
+.mode3-ct-direction{position:absolute;z-index:4;display:none;transform:translate(-50%,-50%);pointer-events:none;white-space:nowrap;color:#f5f9ff;background:rgba(12,29,47,.91);border:1px solid rgba(139,190,213,.7);border-radius:5px;padding:3px 6px;font-size:12px;font-weight:700;line-height:1.1;text-shadow:0 1px 2px #07111c;box-shadow:0 1px 5px rgba(0,0,0,.35)}
+.mode3-ct-direction small{font-size:9px;font-weight:600;color:#a9d8e7;margin-left:3px}
+
+/* Mode 3 educational lesion controls: isolated from Mode 1/2 */
+.mode3-lesion-controls{display:flex;align-items:center;flex-wrap:wrap;gap:7px;padding:5px 9px;border:1px solid #3e596e;border-radius:7px;background:#15283a;color:#e9f3fa;font-size:11px;flex-shrink:0}
+.mode3-lesion-controls label{display:flex;gap:5px;align-items:center;white-space:nowrap}
+.mode3-lesion-controls input{accent-color:#e8a660}
+.mode3-lesion-controls select{background:#20374c;color:#eaf4fd;border:1px solid #54738a;border-radius:5px;padding:3px;font-size:11px}
+.mode3-lesion-controls select:disabled{opacity:.45}
+.mode3-lesion-note{font-size:10px;color:#efc99d;flex:1;min-width:140px}
+@media(max-width:850px){.mode3-lesion-controls{gap:4px;padding:3px 5px;font-size:10px}.mode3-lesion-note{flex-basis:100%;font-size:9px}.mode3-lesion-controls select{font-size:10px;padding:2px}}
+
+/* Mode 3: compact, always-visible one-touch lesion controls in the left panel. */
+.mode3-lesion-panel{margin-top:8px;border-top:1px solid var(--hair);padding-top:7px;color:var(--ink-soft)}
+.mode3-lesion-heading{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;font-size:12px;color:var(--ink)}
+.mode3-lesion-heading button{min-width:60px;border-radius:7px;padding:4px 12px;border:1px solid var(--hair);background:rgba(16,20,32,.035);color:var(--ink-soft);font-weight:750;cursor:pointer}
+.mode3-lesion-heading button.on{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+.mode3-lesion-row{display:grid;grid-template-columns:36px minmax(0,1fr);align-items:center;gap:5px;margin-bottom:6px;font-size:11px;font-weight:650}
+.mode3-choice-grid{display:grid;gap:4px}.mode3-choice-grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}.mode3-choice-grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}.mode3-choice-grid.four{grid-template-columns:repeat(4,minmax(0,1fr))}
+.mode3-choice-grid button{min-width:0;border:1px solid var(--hair);border-radius:7px;background:rgba(255,255,255,.35);padding:6px 2px;color:var(--ink);font-size:11px;font-weight:650;cursor:pointer}
+.mode3-choice-grid button.selected{background:var(--accent-soft);border-color:var(--accent);color:var(--accent);font-weight:800}
+.mode3-choice-grid button:disabled{opacity:.48;cursor:default}
+.mode3-timeline-head{display:flex;align-items:center;justify-content:space-between;gap:6px;margin:7px 0 2px;font-size:11px}.mode3-timeline-head b{font-size:11px;color:var(--ink)}
+.mode3-timeline{width:100%;margin:1px 0;accent-color:var(--accent);cursor:pointer}.mode3-timeline:disabled{opacity:.45}
+.mode3-time-marks{display:flex;justify-content:space-between;font-size:9px;color:var(--ink-faint);margin:0 1px}
+.mode3-teaching-note{font-size:9px;color:var(--ink-faint);line-height:1.2;margin-top:6px}
+@media(max-height:800px) and (min-width:851px){.mode3-panel-controls{padding-top:4px!important;padding-bottom:4px!important}.mode3-panel-controls .mode3-lesion-panel{margin-top:4px;padding-top:4px}.mode3-panel-controls .mode3-lesion-row{margin-bottom:3px}.mode3-panel-controls .mode3-choice-grid button{padding:3px 2px}}
+
+.mode3-choice-grid.four button{font-size:10px;letter-spacing:-.03em;padding-left:1px;padding-right:1px}
+
+/* Mode 3 v0.4: one-tap image visibility and recenter, compact no-scroll UI */
+.mode3-lesion-actions{display:flex;align-items:center;gap:6px;margin:3px 0 2px;white-space:nowrap}
+.mode3-lesion-actions button{flex:1;min-width:0;border:1px solid var(--hair);border-radius:7px;padding:4px 6px;background:rgba(255,255,255,.42);color:var(--ink);font-size:10px;font-weight:700;cursor:pointer}
+.mode3-lesion-actions button:disabled{opacity:.45;cursor:default}
+.mode3-lesion-actions span{font-size:9px;color:var(--ink-faint)}
+.mode3-panel-controls .mode3-choice-grid button{padding-top:4px;padding-bottom:4px}
+.mode3-panel-controls .mode3-lesion-row{margin-bottom:4px}
+
+/* === Brain Atlas 3-Mode unified, non-scrolling teaching controls === */
+.atlas-compact-body{display:flex;flex-direction:column;gap:7px;padding:7px 11px 10px;min-height:0;height:100%;overflow:hidden;color:var(--ink)}
+.atlas-compact-body button,.atlas-mode1-browser button{transition:background-color .1s,border-color .1s,color .1s}
+.atlas-compact-body button:disabled,.atlas-mode1-browser button:disabled{opacity:.34;cursor:default}
+.atlas-section-title{display:flex;align-items:center;justify-content:space-between;font-weight:800;font-size:12px;line-height:1.15;color:var(--ink);margin:2px 0 1px}
+.atlas-section-title span{font-size:10px;font-weight:500;color:var(--ink-faint)}
+.atlas-section-secondary{font-size:11px;color:var(--ink-soft);margin-top:4px}
+.atlas-segments{display:flex;gap:4px;flex:1;min-width:0}
+.atlas-choice{border:1px solid var(--hair);background:rgba(255,255,255,.56);color:var(--ink-soft);font-weight:700;font-size:10.5px;line-height:1.2;border-radius:7px;min-width:0;min-height:28px;padding:5px 6px;flex:1;text-align:center;cursor:pointer}
+.atlas-choice.is-active,.atlas-choice[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft);color:var(--accent)}
+.atlas-compact-row{display:flex;gap:6px;align-items:center;min-height:29px}
+.atlas-compact-row>span:first-child{flex:0 0 55px;font-size:10.5px;font-weight:700;color:var(--ink-soft)}
+.atlas-compact-row>b{font-size:10px;color:var(--ink-soft);font-weight:600;white-space:nowrap}
+.atlas-compact-range{flex:1;width:100%;min-width:0;accent-color:var(--accent);height:20px}
+.atlas-categories{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px}
+.atlas-categories .atlas-choice{padding:5px 2px;font-size:10px;min-height:26px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.atlas-compact-list{display:flex;flex-direction:column;gap:3px;min-height:0}
+.atlas-compact-item{display:flex;align-items:center;gap:5px;min-width:0;min-height:36px;border:1px solid var(--hair);border-radius:7px;padding:3px 5px;background:rgba(255,255,255,.42)}
+.atlas-item-name{border:0;background:none;color:var(--ink);text-align:left;display:flex;flex-direction:column;justify-content:center;flex:1;min-width:0;font-size:11px;font-weight:700;line-height:1.1;padding:2px 3px;white-space:nowrap;text-overflow:ellipsis;overflow:hidden}
+.atlas-item-name.is-active{color:var(--accent)}
+.atlas-item-name small{font-weight:400;font-size:9px;color:var(--ink-faint);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;line-height:1.2;margin-top:2px}
+.atlas-info-trigger{border:0;background:transparent;color:var(--ink-faint);font-size:14px;min-width:25px;min-height:26px;border-radius:6px}
+.atlas-tract-toggle{border:1px solid var(--hair);background:rgba(16,20,32,.08);font-size:10px;font-weight:800;color:var(--ink-faint);padding:5px 4px;min-width:39px;border-radius:6px}
+.atlas-tract-toggle.active{background:var(--accent-soft);color:var(--accent);border-color:var(--accent)}
+.atlas-pager{display:flex;align-items:center;justify-content:space-between;gap:5px;color:var(--ink-faint);font-size:10px;min-height:22px}
+.atlas-pager button{border:1px solid var(--hair);border-radius:6px;background:rgba(255,255,255,.5);color:var(--ink-soft);font-weight:600;font-size:10px;padding:2px 8px;min-height:22px}
+.atlas-chip-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px}
+.atlas-compact-list>.atlas-choice{flex:none;min-height:29px;text-align:left;padding:5px 8px}
+.atlas-inline-detail{position:relative;background:rgba(249,251,255,.98);border:1px solid var(--accent-ring);border-radius:9px;color:var(--ink-soft);font-size:10.5px;line-height:1.4;padding:8px 10px;max-height:105px;overflow:hidden;box-shadow:0 3px 12px rgba(0,0,0,.10)}
+.atlas-inline-detail strong{display:block;color:var(--ink);font-size:11px;margin-bottom:2px}
+.atlas-inline-detail span{display:block}
+.atlas-detail-close{position:absolute;right:4px;top:4px;border:0;background:transparent;color:var(--ink-soft)}
+.atlas-wide-action{width:100%;border:1px solid var(--hair);background:rgba(255,255,255,.64);border-radius:7px;padding:6px 8px;color:var(--ink-soft);font-size:10.5px;font-weight:700;min-height:28px}
+.atlas-mode1-browser{display:flex;flex-direction:column;gap:5px;min-height:0}
+.atlas-search{display:flex;gap:7px;align-items:center;padding:7px 9px;border:1px solid var(--hair);border-radius:8px;background:rgba(255,255,255,.7);min-height:31px}
+.atlas-search input{width:100%;min-width:0;background:transparent;border:0;outline:0;font-family:var(--font);font-size:11px;color:var(--ink)}
+.atlas-search button{background:none;border:0;color:var(--ink-faint);font-size:14px}
+.atlas-preset-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px}
+.atlas-preset-grid>.atlas-choice{min-height:28px}
+.atlas-preset-pages{margin-top:-4px}
+.atlas-footer-actions{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:auto;padding-top:4px;border-top:1px solid var(--hair)}
+.atlas-empty{font-size:11px;color:var(--ink-faint);padding:6px}
+/* Mode 3: tighten vertical rhythm without shrinking controls into illegibility. */
+.mode3-panel-controls{display:flex;flex-direction:column;gap:0;overflow:hidden}
+.mode3-panel-controls .mode3-lesion-panel{margin-top:5px;padding-top:5px}
+.mode3-panel-controls .mode3-lesion-heading{margin-bottom:4px;font-size:11px}
+.mode3-panel-controls .mode3-lesion-row{margin-bottom:4px}
+.mode3-panel-controls .mode3-choice-grid button{padding:5px 2px;min-height:27px}
+.mode3-panel-controls .mode3-timeline-head{margin:4px 0 1px}
+.mode3-panel-controls .mode3-time-marks{margin-top:0}
+/* Responsive density at short viewport heights; never create a nested scrollbar. */
+@media(max-height:780px) and (min-width:851px){
+ .atlas-compact-body{gap:4px;padding:4px 9px}
+ .atlas-choice{min-height:25px;padding:3px 4px}
+ .atlas-compact-item{min-height:31px;padding:2px 4px}
+ .atlas-categories .atlas-choice{min-height:23px}
+ .atlas-search{min-height:27px;padding:4px 8px}
+ .mode3-panel-controls .mode3-choice-grid button{min-height:24px;padding:3px 2px}
+}
+@media(max-height:650px) and (min-width:851px){
+ .atlas-compact-body{gap:3px}
+ .atlas-categories{grid-template-columns:repeat(4,minmax(0,1fr))}
+ .atlas-compact-item{min-height:28px}
+ .atlas-item-name small{display:none}
+ .atlas-preset-grid .atlas-choice{min-height:24px}
+}
+
+/* Mode 1 learning hierarchy, without extra scrolling or permanent prose. */
+.atlas-compact-item.detail{background:rgba(255,255,255,.28);border-color:rgba(80,97,118,.13)}
+.atlas-compact-item.detail .atlas-item-name{font-weight:500;color:var(--ink-soft)}
+.atlas-compact-item.detail .atlas-item-name small{opacity:.63}
+.atlas-compact-item.core{border-left:3px solid var(--accent)}
+.atlas-core-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-right:5px;vertical-align:middle}
+.atlas-priority-badge{display:inline-block;font-size:10px;border-radius:5px;padding:2px 6px;margin-top:5px}
+.atlas-priority-badge.core{background:var(--accent-soft);color:var(--accent)}
+.atlas-priority-badge.detail{background:rgba(20,30,45,.06);color:var(--ink-faint)}
+.atlas-detail-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;margin-top:12px}
+.atlas-detail-tabs button{font-size:11px;border-radius:7px;border:1px solid var(--hair);padding:7px 3px;background:rgba(255,255,255,.58);color:var(--ink-soft);font-weight:650}
+.atlas-detail-tabs button[aria-selected="true"]{border-color:var(--accent);background:var(--accent-soft);color:var(--accent)}
+.atlas-detail-paragraph{font-size:12.5px;line-height:1.6;color:var(--ink-soft);margin:8px 0 4px;min-height:40px}
+.atlas-selection-card{box-sizing:border-box}
+.atlas-selection-card .atlas-detail-paragraph{overflow-wrap:anywhere}
+/* Information appears on demand rather than pushing primary controls below the viewport. */
+.atlas-inline-detail{position:absolute;left:10px;right:10px;bottom:42px;z-index:24;max-height:120px;box-sizing:border-box;box-shadow:0 6px 18px rgba(18,25,41,.17)}
+.atlas-compact-body{position:relative}
+
+/* === UI restoration: compact, naturally scrollable, no hidden pagination === */
+.atlas-panel-scroll{overflow-y:auto!important;overflow-x:hidden!important;scrollbar-width:thin;scrollbar-color:rgba(75,96,120,.3) transparent}
+.atlas-compact-body{height:auto!important;min-height:0!important;overflow:visible!important;gap:6px}
+.atlas-compact-body>.atlas-segments{flex:0 0 auto!important;width:100%;height:32px;max-height:32px;align-self:stretch}
+.atlas-compact-body>.atlas-segments>.atlas-choice{flex:1 1 0;min-height:30px;height:30px;padding:5px 3px;white-space:nowrap;line-height:1.2}
+.atlas-compact-body>.atlas-section-title:first-child{margin-top:0}
+.atlas-compact-body .atlas-compact-list{overflow:visible;flex:none}
+.atlas-mode1-browser{overflow:visible;flex:none}
+.atlas-preset-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.atlas-footer-actions{margin-top:8px;position:sticky;bottom:0;background:rgba(246,247,251,.96);z-index:2;padding:6px 0}
+.atlas-compact-body .atlas-inline-detail{position:relative!important;left:auto!important;right:auto!important;bottom:auto!important;max-height:none!important;overflow:visible!important;box-shadow:none!important}
+.atlas-compact-body .atlas-chip-grid>.atlas-choice{flex:initial;min-height:28px}
+.atlas-mode1-browser .atlas-compact-item{flex:none}
+.mode3-panel-controls{height:auto!important;overflow:visible!important}
+@media(max-height:780px) and (min-width:851px){.atlas-compact-body{gap:5px!important}}
+
+/* Mode 1: progressive disclosure. Core anatomy is a direct-access grid,
+   not a list of priority badges; long detail lists remain available. */
+.atlas-mode1-browser{gap:6px}
+.atlas-browser-subhead{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:3px;min-height:26px}
+.atlas-browser-subhead strong{font-size:11.5px;font-weight:750;line-height:1.25;color:var(--ink);min-width:0}
+.atlas-browser-subhead>span{font-size:10.5px;color:var(--ink-faint)}
+.atlas-layer-mini{flex:none;border:1px solid var(--hair);background:rgba(255,255,255,.53);border-radius:7px;padding:4px 8px;font:600 10px var(--font);color:var(--ink-soft);cursor:pointer}
+.atlas-layer-mini[aria-pressed="true"]{border-color:var(--accent-ring);color:var(--accent);background:var(--accent-soft)}
+.atlas-feature-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px}
+.atlas-feature-button{border:1px solid rgba(69,91,126,.22);border-radius:8px;background:rgba(255,255,255,.66);color:var(--ink);padding:8px 9px;text-align:left;display:flex;align-items:center;min-height:34px;min-width:0;cursor:pointer;transition:background-color .12s,border-color .12s}
+.atlas-feature-button:hover{border-color:var(--accent-ring);background:rgba(255,255,255,.92)}
+.atlas-feature-button.is-active{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+.atlas-feature-name{font-size:11.5px;font-weight:750;line-height:1.35;overflow-wrap:anywhere}
+.atlas-detail-toggle{display:flex;justify-content:space-between;align-items:center;width:100%;min-height:31px;padding:6px 9px;border:1px solid var(--hair);border-radius:8px;background:rgba(255,255,255,.26);color:var(--ink-soft);font:650 11px var(--font);text-align:left;cursor:pointer}
+.atlas-detail-count{font-size:10px;font-weight:500;color:var(--ink-faint);margin-left:5px}
+.atlas-mode1-browser .atlas-compact-list{padding:1px 0 3px}
+@media(max-height:700px){.atlas-feature-button{padding:6px 8px;min-height:30px}}

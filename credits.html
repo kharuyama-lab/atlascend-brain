@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>About / Credits &amp; Licenses — ATLASCEND Brain</title>
+<style>
+:root{color-scheme:light}*{box-sizing:border-box}body{margin:0;background:#f4f6f9;color:#182335;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN",Meiryo,sans-serif;line-height:1.75}main{max-width:850px;margin:30px auto;padding:30px 34px;background:#fff;border:1px solid #dce4ef;border-radius:18px}h1{font-size:2rem;margin:.15em 0}h2{font-size:1.15rem;margin:1.8em 0 .5em;border-bottom:1px solid #e6eaf0;padding-bottom:.3em}p,li{font-size:.94rem}.brand{letter-spacing:.25em;font-size:.73rem;color:#61738c;font-weight:700}.sub{color:#68778b;font-size:.83rem}.note{border-left:3px solid #568cc6;padding:6px 14px;background:#f4f8fc}a{color:#195d99;overflow-wrap:anywhere}ul{padding-left:1.25rem}footer{margin-top:35px;color:#627288;font-size:.8rem}@media(max-width:600px){main{margin:0;padding:22px 18px;border:none;border-radius:0}h1{font-size:1.6rem}}
+</style></head><body><main>
+<div class="brand">ATLASCEND</div><h1>Brain <small style="font-size:.45em;color:#326cba">BETA</small></h1>
+<p class="sub">On the Shoulders of Giants. Beyond the Atlas.</p>
+<p>ATLASCEND Brainは大学教育向けのインタラクティブ3D教材です。オリジナルのBrain Projectおよび複数の公開解剖・医用画像データを基に、教育用の表示・解説・機能を追加した派生教材です。以下の帰属表示は、開発元による本教材の推薦・承認を意味しません。</p>
+<h2>1. 原著作物とプログラム / Original application</h2>
+<p><strong>Brain Project</strong> — Itay Inbar<br />原版: <a href="https://github.com/itayinbarr/brainproject/" target="_blank" rel="noopener noreferrer">GitHub / brainproject</a><br />ビューアのソースコードに関するライセンス通知: <a href="LICENSE">LICENSE (Apache License 2.0)</a></p>
+<p>ATLASCEND版では日本語表示、教育用解説、神経伝導路・脊髄・血管障害・医用画像に関する機能とUIを拡張しています。各追加部分の権利条件は、元データの権利条件と区別して扱います。</p>
+<h2>2. 脳・深部構造の3Dモデル / Brain anatomy</h2>
+<p><strong>brain.glb</strong>および関連メタデータは、元のBrain Projectによる表示に従い<strong>CC BY-SA 4.0</strong>の対象として取り扱います。原データ・派生モデルの表示は <a href="LICENSE">LICENSE</a> を参照してください。</p>
+<p>主要出典: <a href="https://www.z-anatomy.com/">Z-Anatomy</a>、<a href="https://lifesciencedb.jp/bp3d/">BodyParts3D / DBCLS</a>。深部核などにはCIT168、Najdenovskaら、Neudorferらのアトラス由来データが含まれます。個別の出典・条件については元のLICENSEをご確認ください。<a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0 ライセンス</a></p>
+<h2>3. 頸髄3Dモデル / Cervical spinal cord</h2>
+<p>頸髄外形モデルはBodyParts3D / DBCLS由来のOrganUIモデルを加工し、脳幹モデルに幾何学的に位置合わせしています。原モデルの表記に従い<strong>CC BY-SA 2.1 Japan</strong>として別途帰属表示を維持します。</p>
+<p><a href="MODEL_ATTRIBUTION.md">モデルの帰属・加工内容</a> · <a href="https://creativecommons.org/licenses/by-sa/2.1/jp/">CC BY-SA 2.1 Japan</a> · <a href="https://github.com/organui/spinal-cord-3d">OrganUI</a></p>
+<h2>4. CT / MRI・MRIテンプレート</h2>
+<p>Mode 3のCT/MRIサンプルデータは <a href="https://www.slicer.org/">3D Slicer</a> のCT-MR Brain SampleDataに基づきます。別途ICBM152 2009c MRIテンプレートを使用する場合、その配布元の著作権・引用条件が適用されます。元データの権利・利用条件と、当教材のコードのライセンスは同一ではありません。</p>
+<p>資料: <a href="https://github.com/Slicer/Slicer/blob/main/Modules/Scripted/SampleData/SampleData.py">3D Slicer SampleData</a> · <a href="https://nist.mni.mcgill.ca/icbm-152-nonlinear-atlases-2009/">ICBM152 2009c</a></p>
+<h2>5. 教材上の制限 / Educational limitations</h2>
+<div class="note"><p>本教材は解剖学・神経理学療法の教育用であり、診断、治療計画、手術ナビゲーションには使用できません。深部構造・伝導路は参照アトラスから位置合わせされた近似形状を含みます。CT/MRIと元の3D解剖メッシュ間の厳密な位置合わせは完了していません。模式的な脊髄断面・病変表示を患者固有の解剖所見として解釈しないでください。</p></div>
+<h2>6. 追加の出典・ライセンス資料</h2>
+<ul><li><a href="MODE1_LICENSE_AND_CREDITS.md">Mode 1 出典・ライセンス管理記録</a></li><li><a href="MODEL_ATTRIBUTION.md">頸髄モデルの改変・出典記録</a></li><li><a href="LICENSE">原版 LICENSE（コード・脳モデル）</a></li></ul>
+<p>外部JavaScriptライブラリやその他の依存物については、各配布元の個別ライセンスに従います。公開前のライセンス監査は継続中です。</p>
+<footer>ATLASCEND Brain — BETA · This page documents current attribution and limitations; it is not a certification of complete rights clearance.</footer>
+</main></body></html>
