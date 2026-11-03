@@ -1,0 +1,15 @@
+ATLASCEND Brain — Third-party distribution notices
+
+Draco geometric compression decoder / encoder
+Source: https://github.com/google/draco
+License: Apache License, Version 2.0
+The license terms are included at vendor/draco/LICENSE.
+The Draco source and binaries remain under their upstream terms; ATLASCEND does not claim authorship.
+
+Other runtime dependencies are loaded from third-party CDNs, not bundled in this ZIP:
+- Three.js r137 (MIT): https://github.com/mrdoob/three.js
+- React and ReactDOM 18.3.1 (MIT): https://github.com/facebook/react
+- Babel standalone 7.29.0 (MIT): https://github.com/babel/babel
+
+The atlas models, imaging datasets, and viewer code have separate rights and notices; see credits.html, LICENSE, MODEL_ATTRIBUTION.md, MODE1_LICENSE_AND_CREDITS.md, and COPYING_ICBM.txt.
+This notice is not a substitute for final per-asset source provenance and license clearance.

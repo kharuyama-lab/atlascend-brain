@@ -1,0 +1,48 @@
+{
+  "source": "ICBM152 2009c symmetric NIfTI",
+  "shape_xyz": [
+    193,
+    229,
+    193
+  ],
+  "spacing_mm": [
+    1,
+    1,
+    1
+  ],
+  "origin_ras_mm": [
+    -96,
+    -132,
+    -78
+  ],
+  "assets": {
+    "t1": {
+      "path": "ICBM09c_T1.nrrd",
+      "sha256": "d7d4d4efd9367a495c3dc4d559d4d7d83846639b97758e5101913f3fb79cdfbb",
+      "bytes": 15420658,
+      "scale": 0.0015037459088489413,
+      "offset": 49.285362243652344,
+      "source_nii": "mni_icbm152_nlin_sym_09c/mni_icbm152_t1_tal_nlin_sym_09c.nii"
+    },
+    "t2": {
+      "path": "ICBM09c_T2.nrrd",
+      "sha256": "47d8db39add0808d31a4a68da5e3b8c8ef8efdce62c19f241905403905508625",
+      "bytes": 15157766,
+      "scale": 0.0015951433451846242,
+      "offset": 52.262413024902344,
+      "source_nii": "mni_icbm152_nlin_sym_09c/mni_icbm152_t2_tal_nlin_sym_09c.nii"
+    },
+    "surface": {
+      "path": "ICBM09c_brain_surface.bin",
+      "sha256": "b1b30849576b334e9a250a630e4be866234781269372fa1b1633c3b1278dbac9",
+      "bytes": 1175072,
+      "vertex_count": 32642,
+      "triangle_count": 65280,
+      "is_artifact": "Derived surface from ICBM brain mask, smoothed at 2 mm grid"
+    }
+  },
+  "registration": {
+    "mri_t1_vs_t2": "original template same voxel grid",
+    "ct_to_mni": "NOT REGISTERED"
+  }
+}
